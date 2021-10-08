@@ -1,0 +1,35 @@
+﻿<Window x:Class="Social_Credit_System_Game.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Social_Credit_System_Game"
+        Loaded="Window_Loaded"
+        Background="red"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        KeyDown="Window_KeyDown"
+        mc:Ignorable="d"
+        Title="Family guy Chinese Social Credit System Test (made by Ogan Özkul aka Ryuguu - Chan)" Height="590" Width="1158">
+    <Grid>
+        <Canvas x:Name="LAYER00">
+            <Image Height="179" Canvas.Left="10" Canvas.Top="10" Width="179" Source="GF/IMG/STAR.png" x:Name="IMG00" />
+            <TextBlock TextWrapping="Wrap" Canvas.Top="38" Foreground="#FDFFFF00" FontSize="50" Canvas.Left="310" TextAlignment="Center" x:Name="TextBlock00">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="0" Color="Black" Opacity="1" BlurRadius="10" />
+                </TextBlock.Effect>
+                FAMILY GUY CHINESE<LineBreak />
+                SOCIAL CREDIT SYSTEM TEST
+            </TextBlock>
+            <Image Height="315" Canvas.Left="472" Canvas.Top="193" Width="315" Source="GF/IMG/FAM.png" x:Name="IMG01" />
+            <TextBlock Canvas.Left="10" TextWrapping="Wrap" Text="Made by Ogan Özkul aka Ryuguu - Chan" Canvas.Top="521" Foreground="Yellow" x:Name="TextBlock01" />
+            <TextBlock Canvas.Left="866" TextWrapping="Wrap" Canvas.Top="338" Foreground="Yellow" FontSize="30" x:Name="TextBlock02" >
+                PRESS ANY KEY <LineBreak />
+                TO CONTINUE
+            </TextBlock>
+            <Image x:Name="buymecoffeeIMG" Cursor="Hand" MouseDown="BuymecoffeeIMG_MouseDown" Height="100" Canvas.Left="1014" Canvas.Top="10" Width="100" Source="GF/IMG/buymecoffee.png"/>
+        </Canvas>
+        <MediaElement x:Name="BGM00" LoadedBehavior="Manual" Visibility="Hidden" IsEnabled="False" />
+        <MediaElement x:Name="SFX00" LoadedBehavior="Manual"  Visibility="Hidden" IsEnabled="False" />
+    </Grid>
+</Window>
