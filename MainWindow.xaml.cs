@@ -85,7 +85,7 @@ namespace Social_Credit_System_Game
 
         private int ArroundScore(int P)
         {
-            for (int i = 0; i <= ScoreRank.Length; ++i)
+            for (int i = 0; i < ScoreRank.Length; ++i)
             {
                 if (P >= ScoreRank[i] && P < ScoreRank[i+1])
                 {
@@ -226,15 +226,14 @@ namespace Social_Credit_System_Game
             TextBlock05.Text        = "Score : " + You.Score;
             TextBlock05.Foreground  = Brushes.Yellow;
             TextBlock05.Background  = Brushes.Red;
-
             try { TextBlock02.Text = Quests[Question].AmountOfChoice[1].PrintChoice(); }
-            catch (IndexOutOfRangeException OOT) { TextBlock02.Visibility = Visibility.Hidden; }
+            catch (IndexOutOfRangeException) { TextBlock02.Visibility = Visibility.Hidden; }
             
             try { TextBlock03.Text = Quests[Question].AmountOfChoice[2].PrintChoice(); }
-            catch (IndexOutOfRangeException OOT) {TextBlock03.Visibility = Visibility.Hidden; }
+            catch (IndexOutOfRangeException) {TextBlock03.Visibility = Visibility.Hidden; }
 
             try {TextBlock04.Text = Quests[Question].AmountOfChoice[3].PrintChoice();}
-            catch (IndexOutOfRangeException OOT) { TextBlock04.Visibility = Visibility.Hidden; }
+            catch (IndexOutOfRangeException) { TextBlock04.Visibility = Visibility.Hidden; }
         }
 
         private async void CountScore(int ClickedAnswer, int Q)
@@ -555,7 +554,6 @@ namespace Social_Credit_System_Game
                 X.Foreground = Brushes.Red;
 
                 // counting the score
-                int QQ = X.Text[0];
                 CountScore(int.Parse(X.Text[0].ToString()), INT2);
             }
         }
