@@ -123,6 +123,10 @@
     <Content Include="GF\BGM\BADENDING.mp3" />
     <Content Include="GF\BGM\GOODENDING.mp3" />
     <Content Include="GF\BGM\GOPEN.mp3" />
+    <Content Include="GF\VID\BADENDING.mp4" />
+    <Content Include="GF\VID\GOODENDING.mp4" />
+    <Content Include="GF\VID\PERFECTENDING.mp4" />
+    <Content Include="GF\VID\TRULYBADENDING.mp4" />
     <Resource Include="Properties\CCP.ico" />
     <Resource Include="GF\IMG\FORB.jpg" />
     <Resource Include="GF\IMG\QUA.png" />

@@ -20,6 +20,7 @@ namespace Social_Credit_System_Game
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
+  
     public partial class MainWindow : Window
     {
         Timer mainTimer;
@@ -38,6 +39,18 @@ namespace Social_Credit_System_Game
 
         List<Question> Quests;
 
+        int CalculatePerfectScore(List<Question> QQ)
+        {
+            int R = 0;
+
+            foreach(Question Q_Q in QQ)
+                foreach (Choice C in Q_Q.AmountOfChoice)
+                    if (C.IsItCorrect == true)
+                        R += C.GetPoints;
+
+            return R;
+        }
+
         int[] ScoreRank =
         {
             -3000,  // EXECUTED
@@ -46,7 +59,7 @@ namespace Social_Credit_System_Game
             0,      // NOT BAD
             1000,   // GOOD
             3194,   // DEV
-            3199,   // CHINESE KING
+            3199,   // CHINESE KING (placeholder that would be changed when the questions have been successfully loaded)
 
             // for compensation
             int.MaxValue
@@ -67,7 +80,7 @@ namespace Social_Credit_System_Game
 
         // QuestionPics[x][0] = Background Image
         // QuestionPics[x][1] = Character Image
-        string[][] QuestionPics = 
+        string[][] QuestionPics =
         {
             //              The Background          The character
             new string[] { "GF/IMG/PEKIN.jpg"   , "GF/IMG/PETER.png"    },
@@ -77,21 +90,39 @@ namespace Social_Credit_System_Game
             new string[] { "GF/IMG/PEKIN.jpg"   , "GF/IMG/DIS.png"      },
             new string[] { "GF/IMG/FORB.jpg"    , "GF/IMG/MORT.png"     },
             new string[] { "GF/IMG/BG2.png"     , "GF/IMG/MAN.png"      },
+            new string[] { "GF/IMG/CHINA.jpg"   , "GF/IMG/PETER.png"    },
+            new string[] { "GF/IMG/PEKIN.jpg"   , "GF/IMG/QUA.png"      },
+            new string[] { "GF/IMG/FORB.jpg"    , "GF/IMG/BAB.png"      },
+            new string[] { "GF/IMG/BG2.png"     , "GF/IMG/WOM.png"      },
+            new string[] { "GF/IMG/CHINA.jpg"   , "GF/IMG/DIS.png"      },
 
             // for compensation sake
             new string[] { "", "" }
         };
 
-
         private int ArroundScore(int P)
         {
-            for (int i = 0; i < ScoreRank.Length; ++i)
+            try
             {
-                if (P >= ScoreRank[i] && P < ScoreRank[i+1])
+                if (P <= ScoreRank[6])
                 {
-                    return ScoreRank[i];
+                    for (int i = 0; i < (ScoreRank.Length); ++i)
+                    {
+                        if (P >= ScoreRank[i] && P < ScoreRank[i + 1])
+                        {
+                            return ScoreRank[i];
+                        }
+                    }
                 }
-            }   
+                else
+                {
+                    return ScoreRank[6];
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return ScoreRank.Length - 2;
+            }
             return 0;
         }
 
@@ -103,29 +134,29 @@ namespace Social_Credit_System_Game
 
             Quests = new List<Question>();
 
-            mainTimer           =  new Timer(1);
-            mainTimer.Interval  =  500;
-            mainTimer.Elapsed   += MainTimer_Elapsed;
-            mainTimer.Enabled   =  true;
+            mainTimer = new Timer(1);
+            mainTimer.Interval = 500;
+            mainTimer.Elapsed += MainTimer_Elapsed;
+            mainTimer.Enabled = true;
 
             IMG02 = new Image();
 
             // loading all the questions
             Quests.Add(new Question("How many children do you\nhave in your household?", new Choice[] {
-                new Choice("one boy"    , 1, 15, true   ),
-                new Choice("one girl"   , 2, 5,  true   ),
-                new Choice("none"       , 3, 20, true   ),
-                new Choice("multiple"   , 4, 20         )
+                new Choice("one boy"    , 1, 15),
+                new Choice("one girl"   , 2, 5),
+                new Choice("none"       , 3, 20, true),
+                new Choice("multiple"   , 4, 20)
             }));
 
             Quests.Add(new Question("Which of the following \npolitical parties are illegal?", new Choice[] {
-                new Choice("The DPC",           1, 20,    true),
-                new Choice("The UOCN",          2, 25         ),
-                new Choice("Zhi Xian\nParty",   3, 18,    true),
-                new Choice("All of the above",  4, 25,    true)
+                new Choice("The CCP",           1, 20),
+                new Choice("The CZGP",          2, 25),
+                new Choice("The DPC",           3, 18, true),
+                new Choice("All of the above",  4, 25)
             }));
 
-            Quests.Add(new Question("Do you have consent to\nhave your town used as a nuclear testing site?", new Choice[] { 
+            Quests.Add(new Question("Do you have consent to\nhave your town used as a nuclear testing site?", new Choice[] {
                 new Choice("Yes", 1, 1000, true ),
                 new Choice("No",  2, 1000       )
             }));
@@ -133,8 +164,8 @@ namespace Social_Credit_System_Game
             Quests.Add(new Question("Who's our enemy?", new Choice[] {
                 new Choice("Serpentza", 1, 500, true),
                 new Choice("Xi jiping", 2, 999),
-                new Choice("Laowhy86", 3, 500, true),
-                new Choice("Trump", 4, 200, true)
+                new Choice("Laowhy86", 3, 500),
+                new Choice("Trump", 4, 200)
             }));
 
             Quests.Add(new Question("Do you like Taiwan?", new Choice[] {
@@ -154,6 +185,43 @@ namespace Social_Credit_System_Game
                 new Choice("6", 3, 555, true),
                 new Choice("5", 4, 500)
             }));
+
+            Quests.Add(new Question("Who's our supreme leader?", new Choice[] {
+                new Choice("The Wock", 1, 500),
+                new Choice("John Xina", 2, 200),
+                new Choice("Xi Jiping", 3, 800, true),
+                new Choice("Wu Mao", 4, 300)
+            }));
+
+            Quests.Add(new Question("When was China founded?", new Choice[] {
+                new Choice("2070 BCE", 1, 8000),
+                new Choice("221 BCE", 2, 5000),
+                new Choice("1912", 3, 2300),
+                new Choice("1949", 4, 8000, true)
+            }));
+
+            Quests.Add(new Question("Deez [...]", new Choice[] {
+                new Choice("no u", 1, 3000),
+                new Choice("nuts", 2, 5000), // very punishing
+                new Choice("comrads", 3, 8000, true),
+                new Choice("shut up", 4, 9000)
+            }));
+
+            Quests.Add(new Question("Femboy?", new Choice[] {
+                new Choice("hell yes", 1, 500),
+                new Choice("hell no", 2, 300),
+                new Choice("will you?", 3, 900),
+                new Choice("Kill'em!", 4, 900, true)
+            }));
+
+            Quests.Add(new Question("Did any demonstration happened in China?", new Choice[] {
+                new Choice("Yes", 1, 9999999),
+                new Choice("No", 2, 8000, true)
+            }));
+
+            // making calculations for the perfect score
+            // so that value would be updated automatically when the amount of questions is updated as well
+            ScoreRank[6] = CalculatePerfectScore(Quests);
 
             IMG02.Visibility = Visibility.Hidden;
         }
@@ -226,6 +294,7 @@ namespace Social_Credit_System_Game
             TextBlock05.Text        = "Score : " + You.Score;
             TextBlock05.Foreground  = Brushes.Yellow;
             TextBlock05.Background  = Brushes.Red;
+
             try { TextBlock02.Text = Quests[Question].AmountOfChoice[1].PrintChoice(); }
             catch (IndexOutOfRangeException) { TextBlock02.Visibility = Visibility.Hidden; }
             
@@ -350,6 +419,12 @@ namespace Social_Credit_System_Game
             // just for being sure
             F1 = false;
 
+            int MainScore = 0;
+
+            // clearing the list
+            // for memory management
+            Quests.Clear();
+
             RankingText = new Dictionary<int, string>()
             {
                 { ScoreRank[0], "You are getting executed!" },
@@ -360,6 +435,18 @@ namespace Social_Credit_System_Game
                 { ScoreRank[5], "Just like my creator!"     },
                 { ScoreRank[6], "You did a good job!"       }
             };
+
+            // yandere dev mode -> ON
+            if      (You.Score <= ScoreRank[0])                                                        { MainScore = ScoreRank[0]; }
+            else if (You.Score > ScoreRank[0] && You.Score < ScoreRank[1])                             { MainScore = ScoreRank[1]; }
+            else if (You.Score > ScoreRank[1] && You.Score < ScoreRank[2])                             { MainScore = ScoreRank[2]; }
+            else if (You.Score > ScoreRank[2] && You.Score < ScoreRank[3])                             { MainScore = ScoreRank[3]; }
+            else if (You.Score > ScoreRank[3] && You.Score < ScoreRank[4])                             { MainScore = ScoreRank[4]; }
+            else if (You.Score > ScoreRank[4] && You.Score < ScoreRank[5])                             { MainScore = ScoreRank[5]; }
+            else if (You.Score > ScoreRank[5] && You.Score < ScoreRank[6] || You.Score > ScoreRank[6]) { MainScore = ScoreRank[6]; }
+
+            // debug
+            // MessageBox.Show(MainScore.ToString());
 
             Canvas.SetTop(TextBlock01, (this.Height / 2) - (TextBlock01.ActualHeight / 2));
             Canvas.SetLeft(TextBlock01, 0);
@@ -376,10 +463,6 @@ namespace Social_Credit_System_Game
 
             // "empty" backgrond!
             this.Background = Brushes.Black;
-
-            // since that piece of sht don't work with swith cases TT^TT
-            // Yandere Mode : ON
-            int MainScore = ArroundScore(You.Score);
 
             // set the score title!
             TextBlock01.Text                = RankingText[MainScore];
@@ -407,15 +490,65 @@ namespace Social_Credit_System_Game
             LAYER00.Children.Remove(IMG01);
             LAYER00.Children.Remove(IMG02);
 
-            #region the Text animation
+
             // preparing for the animation
             TextBlock01.FontSize    = 1;
             TextBlock01.Visibility  = Visibility.Hidden;
 
             // suspense
+            await Task.Delay(1000);
+
+            #region Loading media
+            // loading the BGM and the video
+            if (MainScore == ScoreRank[0])
+            {
+                BGM00.Source = new Uri("GF/BGM/VERYBADENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/TRULYBADENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[1])
+            {
+                BGM00.Source = new Uri("GF/BGM/BADENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/BADENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[2])
+            {
+                BGM00.Source = new Uri("GF/BGM/BADENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/BADENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[3])
+            {
+                BGM00.Source = new Uri("GF/BGM/AVERAGEENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/GOODENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[4])
+            {
+                BGM00.Source = new Uri("GF/BGM/GOODENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/GOODENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[5])
+            {
+                BGM00.Source = new Uri("GF/BGM/GOODENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/GOODENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            else if (MainScore == ScoreRank[6])
+            {
+                BGM00.Source = new Uri("GF/BGM/PERFECTENDING.mp3", UriKind.RelativeOrAbsolute);
+                VID00.Source = new Uri("GF/VID/PERFECTENDING.mp4", UriKind.RelativeOrAbsolute);
+            }
+            #endregion
+
+            // clearing it too
+            RankingText.Clear();
+
+            VID00.Visibility = Visibility.Visible;
+            VID00.Play();
+            GamePhase = 128;
+            while (GamePhase == 128) { await Task.Delay(1); }
+            while (VID00.Opacity > 0) { VID00.Opacity -= 0.01; await Task.Delay(1); }
+
             await Task.Delay(2000);
 
-            // make it visible
+            #region the Text animation
             TextBlock01.Visibility = Visibility.Visible;
 
             // the zoom-in animation
@@ -425,15 +558,6 @@ namespace Social_Credit_System_Game
                 await Task.Delay(10);
             }
             #endregion
-
-            // loading the BGM
-            if      (MainScore == ScoreRank[0]) { BGM00.Source = new Uri("GF/BGM/VERYBADENDING.mp3",    UriKind.RelativeOrAbsolute); }
-            else if (MainScore == ScoreRank[1]) { BGM00.Source = new Uri("GF/BGM/BADENDING.mp3",        UriKind.RelativeOrAbsolute); }
-            else if (MainScore == ScoreRank[2]) { BGM00.Source = new Uri("GF/BGM/BADENDING.mp3",        UriKind.RelativeOrAbsolute); }
-            else if (MainScore == ScoreRank[3]) { BGM00.Source = new Uri("GF/BGM/AVERAGEENDING.mp3",    UriKind.RelativeOrAbsolute); }    
-            else if (MainScore == ScoreRank[4]) { BGM00.Source = new Uri("GF/BGM/GOODENDING.mp3",       UriKind.RelativeOrAbsolute); }
-            else if (MainScore == ScoreRank[5]) { BGM00.Source = new Uri("GF/BGM/GOODENDING.mp3",       UriKind.RelativeOrAbsolute); }
-            else if (MainScore == ScoreRank[6]) { BGM00.Source = new Uri("GF/BGM/PERFECTENDING.mp3",    UriKind.RelativeOrAbsolute); }
 
             // play it!
             BGM00.Play();
@@ -515,14 +639,10 @@ namespace Social_Credit_System_Game
             }
             else if (GamePhase == 0xff)
             {
-
-                // debug
-                //MessageBox.Show("INT2 = " + INT2);
-
                 // stop the SFX
                 SFX00.Stop();
 
-                if (INT2 < 6)
+                if (INT2 < (Quests.Count - 1))
                 {
                     // neeeeext
                     //  - dog girl in Hololive
@@ -537,6 +657,11 @@ namespace Social_Credit_System_Game
                     // ending
                     Ending();
                 }
+            }
+            else if (GamePhase == 128)
+            {
+                VID00.Stop();
+                GamePhase = 1;
             }
         }
 
@@ -564,6 +689,25 @@ namespace Social_Credit_System_Game
             {
                 TextBlock X = (TextBlock)sender;
                 X.Foreground = Brushes.DarkRed;
+            }
+        }
+
+        private void VID00_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (GamePhase == 128)
+            {
+                VID00.Stop();
+                GamePhase = 1;
+            }
+        }
+
+        private void BGM00_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (GamePhase != 1)
+            {
+                // loop
+                BGM00.Stop();
+                BGM00.Play();
             }
         }
 

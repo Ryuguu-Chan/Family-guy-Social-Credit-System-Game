@@ -29,7 +29,8 @@
             </TextBlock>
             <Image x:Name="buymecoffeeIMG" Cursor="Hand" MouseDown="BuymecoffeeIMG_MouseDown" Height="100" Canvas.Left="1014" Canvas.Top="10" Width="100" Source="GF/IMG/buymecoffee.png"/>
         </Canvas>
-        <MediaElement x:Name="BGM00" LoadedBehavior="Manual" Visibility="Hidden" IsEnabled="False" />
+        <MediaElement x:Name="BGM00" LoadedBehavior="Manual" Visibility="Hidden" IsEnabled="False" MediaEnded="BGM00_MediaEnded" />
         <MediaElement x:Name="SFX00" LoadedBehavior="Manual"  Visibility="Hidden" IsEnabled="False" />
+        <MediaElement x:Name="VID00" LoadedBehavior="Manual" Visibility="Hidden" IsEnabled="False" MediaEnded="VID00_MediaEnded" />
     </Grid>
 </Window>
