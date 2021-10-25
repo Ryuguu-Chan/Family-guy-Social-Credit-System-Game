@@ -14,13 +14,19 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers; // for the Timer class
 using System.Diagnostics; // for the Process class
+using System.IO; // File class
 
 namespace Social_Credit_System_Game
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-  
+    /// 
+
+    /****************************************/
+    /*  MADE BY OGAN ÖZKUL AKA RYUGUU CHAN  */
+    /****************************************/
+
     public partial class MainWindow : Window
     {
         Timer mainTimer;
@@ -78,6 +84,17 @@ namespace Social_Credit_System_Game
             new double[] { 720, 260 }, // TextBlock04
         };
 
+        bool CheckFileIntegrity(string[] Files)
+        {
+            foreach(string FileName in Files)
+            {
+                if (!File.Exists(FileName))
+                    return false;
+            }
+
+            return true;
+        }
+
         // QuestionPics[x][0] = Background Image
         // QuestionPics[x][1] = Character Image
         string[][] QuestionPics =
@@ -129,6 +146,61 @@ namespace Social_Credit_System_Game
         public MainWindow()
         {
             InitializeComponent();
+
+            // if any of these files doesn't exist -> close the game!
+            if (!CheckFileIntegrity(new string[] {
+
+                // all the BGM files
+                "GF/BGM/AVERAGEENDING.mp3"  ,
+                "GF/BGM/BADENDING.mp3"      ,
+                "GF/BGM/GOODENDING.mp3"     ,
+                "GF/BGM/GOPEN.mp3"          ,
+                "GF/BGM/PERFECTENDING.mp3"  ,
+                "GF/BGM/VERYBADENDING.mp3"  ,
+
+                // all the images
+                "GF/IMG/BAB.png"            ,
+                "GF/IMG/BG2.png"            ,
+                "GF/IMG/buymecoffee.png"    ,
+                "GF/IMG/CHECK.png"          ,
+                "GF/IMG/CHINA.jpg"          ,
+                "GF/IMG/DIS.png"            ,
+                "GF/IMG/DOWN.png"           ,
+                "GF/IMG/FAM.png"            ,
+                "GF/IMG/FORB.jpg"           ,
+                "GF/IMG/MAN.png"            ,
+                "GF/IMG/MORT.png"           ,
+                "GF/IMG/PEKIN.jpg"          ,
+                "GF/IMG/PETER.png"          ,
+                "GF/IMG/PETER_HAPPY.png"    ,
+                "GF/IMG/PETER_UNHAPPY.png"  ,
+                "GF/IMG/QUA.png"            ,
+                "GF/IMG/STAR.png"           ,
+                "GF/IMG/up.png"             ,
+                "GF/IMG/WOM.png"            ,
+                "GF/IMG/wrong.png"          ,
+
+                // all the sfx
+                "GF/SFX/DING.wav"           ,
+                "GF/SFX/NOO.wav"            ,
+                "GF/SFX/WRONG.wav"          ,
+                "GF/SFX/YEY.wav"            ,
+
+                // all the cinematics (video files irl btw) :P
+                "GF/VID/BADENDING.mp4"      ,
+                "GF/VID/GOODENDING.mp4"     ,
+                "GF/VID/PERFECTENDING.mp4"  ,
+                "GF/VID/TRULYBADENDING.mp4"
+
+            }))
+            {
+                // error!
+                MessageBox.Show("SOME FILES ARE MISSING!\nYOU CAN FIX THIS BE RE-DOWNLOAD OR RE-EXTRACT THE GAME FROM IT'S ZIP FILE", "MISSING FILES", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                // close it
+                // since can't play without all the files
+                this.Close();
+            }
 
             You = new Player();
 
